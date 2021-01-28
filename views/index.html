@@ -21,23 +21,21 @@
         left: 0;
         right: 0;
       }
+      .msgbox {
+        max-height: 400px;
+      }
     </style>
   </head>
 
   <body>
     <div id="app">
       <section class="hero is-info">
-  <div class="hero-body">
-    <p class="title">
-      Chat <span class="tag is-black">{{nbonline}}</span>
-    </p>
-   
-  </div>
-</section>
-      
-      
-      <div class="card content">
-        
+        <p class="title p-2">
+          Chat <span class="tag is-black">{{nbonline}}</span> <span>💖🐨</span>
+        </p>
+      </section>
+
+      <div class="card content msgbox">
         <div class="messages" v-for="(msg, index) in messages" :key="index">
           <p>
             <span class="font-weight-bold">{{ msg.user }}: </span>{{ msg.message
@@ -68,7 +66,9 @@
 
         data() {
           return {
-            id:Math.random().toString(36).substr(2, 9),
+            id: Math.random()
+              .toString(36)
+              .substr(2, 9),
             user: "",
             message: "",
             messages: [],
@@ -89,26 +89,21 @@
         },
         mounted() {
           this.socket.on("NBONLINE", data => {
-            this.nbonline = data
-
-           
+            this.nbonline = data;
           });
-          
+
           this.socket.on("MESSAGE", data => {
             this.messages = [...this.messages, data];
-           
           });
-          
+
           this.socket.on("MSGS", data => {
-            console.log(this.id,data)
-            if(data.id == this.id){
-            this.messages = data.messages
+            console.log(this.id, data);
+            if (data.id == this.id) {
+              this.messages = data.messages;
             }
-           
           });
-          
-            this.socket.emit("GET_MESSAGES",this.id)
-          
+
+          this.socket.emit("GET_MESSAGES", this.id);
         }
       };
 

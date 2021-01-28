@@ -18,14 +18,12 @@ app.get("/json", function(req, res) {
   res.status(200).json({ message: "ok" });
 });
 
-setInterval(function() {
-  io.emit("NBONLINE", io.engine.clientsCount);
-}, 1000);
-
 io.on("connection", socket => {
   // émission d'un évènement
   io.emit("NBONLINE", io.engine.clientsCount);
-  
+  setInterval(function() {
+    io.emit("NBONLINE", io.engine.clientsCount);
+  }, 1000);
 
   socket.on("SEND_MESSAGE", function(data) {
     messages.push(data);
