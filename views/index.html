@@ -3,82 +3,93 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>chat</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <title>Chat</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
     <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
     <script src="https://unpkg.com/vue@next"></script>
     <style>
-      body{
-
-  min-height: 100vh;
-
+      body {
+        min-height: 100vh;
+        background: "";
       }
-      .msgform{
+      .msgform {
         position: absolute;
         bottom: 0;
         left: 0;
-    right: 0;
+        right: 0;
       }
     </style>
   </head>
 
   <body>
     <div id="app">
-       <div class="card content has-text-centered">
-              <div class="messages" v-for="(msg, index) in messages" :key="index">
-                  <p><span class="font-weight-bold">{{ msg.user }}: </span>{{ msg.message }}</p>
-              </div>
+      <div class="card content has-text-centered">
+        <div class="messages" v-for="(msg, index) in messages" :key="index">
+          <p>
+            <span class="font-weight-bold">{{ msg.user }}: </span>{{ msg.message
+            }}
+          </p>
+        </div>
+      </div>
+      <div class="box msgform">
+        <form @submit.prevent="sendMessage">
+          <div class="field control">
+            <label for="user">Nom d'utilisateur:</label>
+            <input type="text" v-model="user" class="input" />
           </div>
-        <div class="box msgform">
-          <form @submit.prevent="sendMessage">
-            
-            
-              <div class="field control">
-                  <label for="user">Nom d'utilisateur:</label>
-                  <input type="text" v-model="user" class="input">
-              </div>
-              <div class="field control" >
-                  <label for="message" v-bind:class="message ? '':'is-danger'" >Message:</label>
-                  <input type="text" v-model="message" class="input">
-              </div>
-              <button type="submit" class="button">Envoyer</button>
-          </form>
+          <div class="field control">
+            <label for="message" v-bind:class="message ? '':'is-danger'"
+              >Message:</label
+            >
+            <input type="text" v-model="message" class="input" />
+          </div>
+          <button type="submit" class="button">Envoyer</button>
+        </form>
       </div>
     </div>
 
     <script>
-       const app = {
-          el: '#app',
+      const app = {
+        el: "#app",
 
-      data() {
+        data() {
           return {
-              user: '',
-              message: '',
-              messages: [],
-              socket : io()
-          }
-      },
-      methods: {
+            user: "",
+            message: "",
+            messages: [],
+            socket: io()
+          };
+        },
+        methods: {
           sendMessage(e) {
-              e.preventDefault();
+            e.preventDefault();
 
-              this.socket.emit('SEND_MESSAGE', {
-                  user: this.user,
-                  message: this.message
-              });
-              this.message = ''
+            this.socket.emit("SEND_MESSAGE", {
+              user: this.user,
+              message: this.message
+            });
+            this.message = "";
           }
-      },
-      mounted() {
-          this.socket.on('MESSAGE', (data) => {
-              this.messages = [...this.messages, data];
-              // you can also do this.messages.push(data)
+        },
+        mounted() {
+          this.socket.on("MESSAGE", data => {
+            this.messages = [...this.messages, data];
+            // you can also do this.messages.push(data)
           });
-      }
-
+          this.socket.on("MSGS", data => {
+            
+            this.messages = [...this.messages, data.messages];
+            // you can also do this.messages.push(data)
+          });
+            this.socket.emit("GET_MESSAGES",this.id}
+          
         }
+      };
 
-        Vue.createApp(app).mount('#app')
+      Vue.createApp(app).mount("#app");
     </script>
 
     <!-- FIN CODE SOCKET -->

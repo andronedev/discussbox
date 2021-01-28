@@ -32,6 +32,10 @@ io.on('connection', (socket) =>{
     messages.push(data)
         io.emit('MESSAGE', data)
     });
+   socket.on('GET_MESSAGES', function(data) {
+    messages.push(data)
+        io.emit('MSGS', {id:socket.id,messages:messages})
+    });
 })
 
 // on change app par server
