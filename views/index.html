@@ -89,7 +89,8 @@
         },
         mounted() {
           this.socket.on("NBONLINE", data => {
-            this.news = [...this.news, data];
+            this.nbonline = data
+
            
           });
           
