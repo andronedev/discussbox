@@ -9,20 +9,27 @@
     <script src="https://unpkg.com/vue@next"></script>
     <style>
       body{
-        height:100%
+
+  min-height: 100vh;
+
+      }
+      .msgform{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    right: 0;
       }
     </style>
   </head>
 
   <body>
-    <h1>Hello</h1>
     <div id="app">
-       <div class="card">
+       <div class="card content has-text-centered">
               <div class="messages" v-for="(msg, index) in messages" :key="index">
                   <p><span class="font-weight-bold">{{ msg.user }}: </span>{{ msg.message }}</p>
               </div>
           </div>
-        <div class="box mb-0">
+        <div class="box msgform">
           <form @submit.prevent="sendMessage">
             
             
@@ -31,7 +38,7 @@
                   <input type="text" v-model="user" class="input">
               </div>
               <div class="field control" >
-                  <label for="message">Message:</label>
+                  <label for="message" v-bind:class="message ? '':'is-danger'" >Message:</label>
                   <input type="text" v-model="message" class="input">
               </div>
               <button type="submit" class="button">Envoyer</button>
