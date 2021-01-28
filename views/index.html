@@ -16,12 +16,10 @@
         background: "";
       }
       .msgform {
-       
       }
       .msgbox {
- 
         max-height: 300px;
-        overflow-y:scroll;
+        overflow-y: scroll;
       }
     </style>
   </head>
@@ -58,7 +56,7 @@
         <form @submit.prevent="sendMessage">
           <div class="field control">
             <label for="user">Nom d'utilisateur:</label>
-            <input type="text" v-model="user" class="input" />
+            <input type="text" v-model="user" class="input" :disabled="lockpseudo" />
           </div>
           <div class="field control">
             <label for="message" v-bind:class="message ? '':'is-danger'"
@@ -84,7 +82,7 @@
             message: "",
             messages: [],
             nbonline: 0,
-            lockpseudo:false,
+            lockpseudo: false,
             socket: io()
           };
         },
@@ -97,6 +95,7 @@
               message: this.message
             });
             this.message = "";
+            this.lockpseudo = true
           },
           clearMsgs(e) {
             e.preventDefault();
@@ -110,20 +109,20 @@
 
           this.socket.on("MESSAGE", data => {
             this.messages = [...this.messages, data];
-             var elem = document.getElementById('msgs');
-              elem.scrollTop = elem.scrollHeight;
+            setTimeout(function() {
+                var elem = document.getElementById("msgs");
+                elem.scrollTop = elem.scrollHeight;
+              }, 500);
           });
-          
-        
-
 
           this.socket.on("MSGS", data => {
             console.log(this.id, data);
             if (data.id == this.id) {
               this.messages = data.messages;
-              
-              var elem = document.getElementById('msgs');
+              setTimeout(function() {
+                var elem = document.getElementById("msgs");
                 elem.scrollTop = elem.scrollHeight;
+              }, 500);
             }
           });
 
