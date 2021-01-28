@@ -4,18 +4,39 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>chat</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
     <script src="https://unpkg.com/vue@next"></script>
+    <style>
+      body{
+        height:100%
+      }
+    </style>
   </head>
 
   <body>
     <h1>Hello</h1>
     <div id="app">
-       <div class="card-body">
+       <div class="card">
               <div class="messages" v-for="(msg, index) in messages" :key="index">
                   <p><span class="font-weight-bold">{{ msg.user }}: </span>{{ msg.message }}</p>
               </div>
           </div>
+        <div class="box mb-0">
+          <form @submit.prevent="sendMessage">
+            
+            
+              <div class="field control">
+                  <label for="user">Nom d'utilisateur:</label>
+                  <input type="text" v-model="user" class="input">
+              </div>
+              <div class="field control" >
+                  <label for="message">Message:</label>
+                  <input type="text" v-model="message" class="input">
+              </div>
+              <button type="submit" class="button">Envoyer</button>
+          </form>
+      </div>
     </div>
 
     <script>

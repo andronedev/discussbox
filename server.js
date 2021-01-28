@@ -6,6 +6,9 @@ const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 
+var users = []
+var messages = []
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.static('public'))
@@ -20,7 +23,15 @@ app.get('/json', function (req, res) {
 io.on('connection', (socket) =>{
    console.log(`Connecté au client ${socket.id}`)
    // émission d'un évènement
-   io.emit('MESSAGE',{user:"ADMIN",msg:"Une personne viens de se connecter'})
+    var msg= {id:socket.id,user:"ADMIN",message:"Une personne viens de se connecter"}
+    messages.push(msg)
+   io.emit('MESSAGE',msg)
+  
+  
+  socket.on('SEND_MESSAGE', function(data) {
+    messages.push(data)
+        io.emit('MESSAGE', data)
+    });
 })
 
 // on change app par server
