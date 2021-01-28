@@ -32,8 +32,10 @@ io.on("connection", socket => {
   socket.on("GET_MESSAGES", function(data) {
     io.emit("MSGS", { id: data, messages: messages });
   });
+  
+   
 });
-
+//CLEAR_MESSAGES
 // on change app par server
 server.listen(3000, function() {
   console.log("Votre app est disponible sur localhost:3000 !");

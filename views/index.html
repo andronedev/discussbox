@@ -22,7 +22,8 @@
         right: 0;
       }
       .msgbox {
-        max-height: 400px;
+        max-height: 300px;
+        overflow-y:scroll;
       }
     </style>
   </head>
@@ -98,14 +99,9 @@
             });
             this.message = "";
           },
-          sendMessage(e) {
+          clearMsgs(e) {
             e.preventDefault();
-
-            this.socket.emit("SEND_MESSAGE", {
-              user: this.user,
-              message: this.message
-            });
-            this.message = "";
+            this.messages = [];
           }
         },
         mounted() {
@@ -116,6 +112,9 @@
           this.socket.on("MESSAGE", data => {
             this.messages = [...this.messages, data];
           });
+          
+        
+
 
           this.socket.on("MSGS", data => {
             console.log(this.id, data);
