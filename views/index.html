@@ -26,7 +26,18 @@
 
   <body>
     <div id="app">
-      <div class="card content has-text-centered">
+      <section class="hero is-info">
+  <div class="hero-body">
+    <p class="title">
+      Chat <span class="tag is-black">{{nbonline}}</span>
+    </p>
+   
+  </div>
+</section>
+      
+      
+      <div class="card content">
+        
         <div class="messages" v-for="(msg, index) in messages" :key="index">
           <p>
             <span class="font-weight-bold">{{ msg.user }}: </span>{{ msg.message
@@ -61,6 +72,7 @@
             user: "",
             message: "",
             messages: [],
+            nbonline: 0,
             socket: io()
           };
         },
@@ -76,17 +88,22 @@
           }
         },
         mounted() {
+          this.socket.on("NBONLINE", data => {
+            this.news = [...this.news, data];
+           
+          });
+          
           this.socket.on("MESSAGE", data => {
             this.messages = [...this.messages, data];
-            // you can also do this.messages.push(data)
+           
           });
           
           this.socket.on("MSGS", data => {
             console.log(this.id,data)
             if(data.id == this.id){
-            this.messages.push(data.messages);
+            this.messages = data.messages
             }
-            // you can also do this.messages.push(data)
+           
           });
           
             this.socket.emit("GET_MESSAGES",this.id)

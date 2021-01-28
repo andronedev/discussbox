@@ -22,9 +22,8 @@ app.get('/json', function (req, res) {
 io.on('connection', (socket) =>{
    console.log(`Connecté au client ${socket.id}`)
    // émission d'un évènement
-    var msg= {id:socket.id,user:"ADMIN",message:"Une personne viens de se connecter"}
-    messages.push(msg)
-   io.emit('MESSAGE',msg)
+  
+   io.emit('NEWS',"Une personne viens de se connecter")
   
   
   socket.on('SEND_MESSAGE', function(data) {
