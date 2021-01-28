@@ -16,12 +16,10 @@
         background: "";
       }
       .msgform {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
+       
       }
       .msgbox {
+ 
         max-height: 300px;
         overflow-y:scroll;
       }
@@ -48,7 +46,7 @@
         </div>
       </nav>
 
-      <div class="card content msgbox">
+      <div id="msgs" class="card content msgbox">
         <div class="messages" v-for="(msg, index) in messages" :key="index">
           <p>
             <span class="font-weight-bold">{{ msg.user }}: </span>{{ msg.message
@@ -86,6 +84,7 @@
             message: "",
             messages: [],
             nbonline: 0,
+            lockpseudo:false,
             socket: io()
           };
         },
@@ -111,6 +110,8 @@
 
           this.socket.on("MESSAGE", data => {
             this.messages = [...this.messages, data];
+             var elem = document.getElementById('msgs');
+              elem.scrollTop = elem.scrollHeight;
           });
           
         
@@ -120,6 +121,9 @@
             console.log(this.id, data);
             if (data.id == this.id) {
               this.messages = data.messages;
+              
+              var elem = document.getElementById('msgs');
+                elem.scrollTop = elem.scrollHeight;
             }
           });
 
