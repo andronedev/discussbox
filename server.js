@@ -20,7 +20,7 @@ app.get('/json', function (req, res) {
 io.on('connection', (socket) =>{
    console.log(`Connecté au client ${socket.id}`)
    // émission d'un évènement
-   io.emit('news','Voici un nouvel élément envoyé par le serveur')
+   io.emit('news','Une personne viens de se connecter')
 })
 
 // on change app par server
