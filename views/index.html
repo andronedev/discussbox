@@ -82,9 +82,9 @@
           });
           
           this.socket.on("MSGS", data => {
-            console.log(data)
+            console.log(this.id,data)
             if(data.id == this.id){
-            this.messages = [...this.messages, data.messages];
+            this.messages.push(data.messages);
             }
             // you can also do this.messages.push(data)
           });

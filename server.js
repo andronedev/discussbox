@@ -1,11 +1,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
-const db = require("./db.js")
 // ajout de socket.io
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 
+var messages = []
 
 
 app.use(bodyParser.json())
@@ -23,16 +23,16 @@ io.on('connection', (socket) =>{
    console.log(`Connecté au client ${socket.id}`)
    // émission d'un évènement
     var msg= {id:socket.id,user:"ADMIN",message:"Une personne viens de se connecter"}
-    db.messages.push(msg)
+    messages.push(msg)
    io.emit('MESSAGE',msg)
   
   
   socket.on('SEND_MESSAGE', function(data) {
-    db.messages.push(data)
+    messages.push(data)
         io.emit('MESSAGE', data)
     });
    socket.on('GET_MESSAGES', function(data) {
-        io.emit('MSGS', {id:data,messages:db.messages})
+        io.emit('MSGS', {id:data,messages:messages})
     });
 })
 
