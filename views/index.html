@@ -45,7 +45,7 @@
       <div id="msgs" class="card content msgbox p-5">
         <div class="messages" v-for="(msg, index) in messages" :key="index">
           <p>
-            <span class="tag is-black is-4 mr-2">{{ msg.user }}</span>{{ msg.message
+            <span class="tag is-4 mr-2" v-bind:class="msg.color">{{ msg.user }}</span>{{ msg.message
             }}
           </p>
           <hr class="mt-0 mb-0">
@@ -82,7 +82,7 @@
             messages: [],
             nbonline: 0,
             lockpseudo: false,
-            color:[""][Math.floor(Math.random() * quotes.length),
+            color: "",
             socket: io()
           };
         },
@@ -93,7 +93,8 @@
         
             this.socket.emit("SEND_MESSAGE", {
               user: this.user,
-              message: this.message
+              message: this.message,
+              color: this.color
             });
             this.message = "";
             this.lockpseudo = true
@@ -104,6 +105,9 @@
           }
         },
         mounted() {
+          let colors = ["black","primary","info","danger","warning","link","dark","success"]
+          this.color = "is-"+colors[Math.floor(Math.random() * colors.length)]
+          
           this.socket.on("NBONLINE", data => {
             this.nbonline = data;
           });
