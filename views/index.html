@@ -117,7 +117,7 @@
             setTimeout(function() {
                 var elem = document.getElementById("msgs");
                 elem.scrollTop = elem.scrollHeight;
-              }, 500);
+              }, 50);
           });
 
           this.socket.on("MSGS", data => {
@@ -127,7 +127,7 @@
               setTimeout(function() {
                 var elem = document.getElementById("msgs");
                 elem.scrollTop = elem.scrollHeight;
-              }, 500);
+              }, 50);
             }
           });
 
