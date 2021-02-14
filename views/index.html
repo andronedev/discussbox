@@ -29,7 +29,7 @@
       <nav class="is-info navbar">
         <div class="navbar-start">
           <p class="title p-2">
-            Chat
+            Chat 💖🐨
             <span class="tag is-black ">{{nbonline}} Personnes en ligne</span>
           </p>
         </div>
@@ -39,17 +39,16 @@
               >Supprimer les messages</span
             >
           </div>
-
-          <h2 class="navbar-item">💖🐨</h2>
         </div>
       </nav>
 
-      <div id="msgs" class="card content msgbox">
+      <div id="msgs" class="card content msgbox p-5">
         <div class="messages" v-for="(msg, index) in messages" :key="index">
           <p>
-            <span class="font-weight-bold">{{ msg.user }}: </span>{{ msg.message
+            <span class="tag is-black is-4 mr-2">{{ msg.user }}</span>{{ msg.message
             }}
           </p>
+          <hr class="mt-0 mb-0">
         </div>
       </div>
       <div class="box msgform">
@@ -83,13 +82,15 @@
             messages: [],
             nbonline: 0,
             lockpseudo: false,
+            color:[""][Math.floor(Math.random() * quotes.length),
             socket: io()
           };
         },
         methods: {
           sendMessage(e) {
+            if(!this.message || !this.user)return
             e.preventDefault();
-
+        
             this.socket.emit("SEND_MESSAGE", {
               user: this.user,
               message: this.message
